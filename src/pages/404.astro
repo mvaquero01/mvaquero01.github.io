@@ -1,0 +1,25 @@
+---
+import { ruta } from '../i18n/utils';
+---
+
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>404</title>
+    <style>
+      body { margin: 0; min-height: 100svh; display: grid; place-items: center; background: #eef2f8; color: #12306a; font-family: system-ui, sans-serif; text-align: center; }
+      @media (prefers-color-scheme: dark) { body { background: #12306a; color: #eef3fb; } }
+      h1 { font-family: system-ui, sans-serif; font-weight: 700; letter-spacing: -0.05em; font-size: clamp(5rem, 20vw, 12rem); margin: 0; line-height: 1; }
+      a { color: inherit; }
+    </style>
+  </head>
+  <body>
+    <main>
+      <h1>404</h1>
+      <p>Esta página no existe · This page does not exist</p>
+      <p><a href={ruta('/es/')}>Inicio</a> · <a href={ruta('/en/')}>Home</a></p>
+    </main>
+  </body>
+</html>

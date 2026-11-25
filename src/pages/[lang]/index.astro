@@ -1,0 +1,22 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import Hero from '../../components/Hero.astro';
+import Secciones from '../../components/Secciones.astro';
+import { idiomas, otroIdioma, ruta, type Idioma } from '../../i18n/utils';
+import { proyectosDe } from '../../scripts/proyectos';
+
+export function getStaticPaths() {
+  return idiomas.map((lang) => ({ params: { lang } }));
+}
+
+const lang = Astro.params.lang as Idioma;
+const proyectos = proyectosDe(await getCollection('proyectos'), lang);
+---
+
+<Base lang={lang} alternativa={ruta(`/${otroIdioma(lang)}/`)} inicio>
+  <main>
+    <Hero lang={lang} proyectos={proyectos} />
+    <Secciones lang={lang} proyectos={proyectos} />
+  </main>
+</Base>

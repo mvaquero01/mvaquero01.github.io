@@ -1,0 +1,109 @@
+---
+// Menú flotante abajo en el centro, como en la referencia. Incluye el cambio
+// de idioma y el de modo claro/oscuro.
+import { t, ruta, otroIdioma, type Idioma } from '../i18n/utils';
+
+interface Props { lang: Idioma; alternativa: string }
+const { lang, alternativa } = Astro.props;
+const base = ruta(`/${lang}/`);
+const enlaces = [
+  { id: 'inicio', texto: lang === 'es' ? 'Inicio' : 'Home', href: base + '#inicio' },
+  { id: 'sobre', texto: t(lang, 'nav.sobre'), href: base + '#sobre' },
+  { id: 'proyectos', texto: t(lang, 'nav.proyectos'), href: base + '#proyectos' },
+  { id: 'experiencia', texto: t(lang, 'nav.experiencia'), href: base + '#experiencia' },
+];
+---
+
+<nav class="pill" aria-label="Principal">
+  <ul>
+    {enlaces.map((e) => (
+      <li><a class="link" href={e.href} data-nav={e.id}>{e.texto}</a></li>
+    ))}
+    <li><a class="link" href={base + '#contacto'} data-nav="contacto">{t(lang, 'nav.contacto')} <span aria-hidden="true">↗</span></a></li>
+  </ul>
+  <span class="pill__sep" aria-hidden="true"></span>
+  <a class="pill__btn" data-cambiar-idioma href={alternativa} title={t(lang, 'idioma.cambiar')} aria-label={t(lang, 'idioma.cambiar')} hreflang={otroIdioma(lang)}>
+    {otroIdioma(lang).toUpperCase()}
+  </a>
+  <button class="pill__btn pill__tema" type="button" data-tema aria-label={t(lang, 'tema.cambiar')} title={t(lang, 'tema.cambiar')}>
+    <svg class="sol" viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><circle cx="12" cy="12" r="4.2" fill="none" stroke="currentColor" stroke-width="1.6"/><g stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><path d="M12 2.5v2M12 19.5v2M2.5 12h2M19.5 12h2M5.3 5.3l1.4 1.4M17.3 17.3l1.4 1.4M5.3 18.7l1.4-1.4M17.3 6.7l1.4-1.4"/></g></svg>
+    <svg class="luna" viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5Z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg>
+  </button>
+</nav>
+
+<style>
+  .pill {
+    position: fixed;
+    left: 50%;
+    bottom: max(16px, env(safe-area-inset-bottom));
+    transform: translateX(-50%);
+    z-index: 60;
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+    padding: 6px 6px 6px 18px;
+    border-radius: 999px;
+    font-family: var(--sans);
+    font-weight: 500;
+    font-size: 0.9rem;
+    white-space: nowrap;
+    max-width: calc(100vw - 2 * 16px);
+    animation: pill-in 1.2s var(--ease) 0.9s both;
+  }
+  /* PRUEBA: fondo opaco con un borde fino amarillo (sin difuminado).
+     Para volver a la versión difuminada, mira NavFlotante-difuminado.css */
+  .pill {
+    background: var(--bg);
+    border: 1px solid var(--amarillo);
+  }
+  /* El menú se queda quieto al cambiar de página (no se desliza con ella)
+     y solo hace su animación de entrada la primera vez */
+  .pill { view-transition-name: menu; }
+  :global(html.ya-cargada) .pill { animation: none; }
+  @keyframes pill-in {
+    from { opacity: 0; transform: translate(-50%, 24px); }
+  }
+  ul {
+    display: flex;
+    gap: 1.1rem;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+  ul::-webkit-scrollbar { display: none; }
+  ul :global(a[aria-current='true']) { color: var(--accent); }
+  .pill__sep {
+    width: 1px;
+    height: 18px;
+    background: var(--line);
+    margin: 0 0.5rem 0 0.8rem;
+    flex: none;
+  }
+  .pill__btn {
+    flex: none;
+    display: grid;
+    place-items: center;
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    border: 0;
+    background: transparent;
+    color: var(--ink);
+    font: 500 0.72rem/1 var(--sans);
+    letter-spacing: 0.04em;
+    cursor: pointer;
+    transition: background 0.3s;
+  }
+  .pill__btn:hover { background: var(--line); }
+  .pill__tema svg { grid-area: 1 / 1; transition: transform 0.6s var(--ease), opacity 0.4s; }
+  :global([data-theme='dark']) .sol { transform: rotate(90deg) scale(0.4); opacity: 0; }
+  :global([data-theme='light']) .luna { transform: rotate(-90deg) scale(0.4); opacity: 0; }
+
+  @media (max-width: 560px) {
+    .pill { font-size: 0.85rem; padding-left: 14px; }
+    ul { gap: 0.8rem; }
+    li:nth-child(4) { display: none; }
+  }
+</style>

@@ -1,0 +1,56 @@
+[
+  {
+    "grupo": {
+      "es": "Diseño y CAD",
+      "en": "Design & CAD"
+    },
+    "items": [
+      "SolidWorks",
+      "Planos técnicos",
+      "Impresión 3D"
+    ],
+    "itemsEn": [
+      "SolidWorks",
+      "Technical drawings",
+      "3D printing"
+    ]
+  },
+  {
+    "grupo": {
+      "es": "Simulación y cálculo",
+      "en": "Simulation & analysis"
+    },
+    "items": [
+      "Ansys (FEM)",
+      "MATLAB",
+      "Minitab"
+    ]
+  },
+  {
+    "grupo": {
+      "es": "Programación y datos",
+      "en": "Programming & data"
+    },
+    "items": [
+      "Python",
+      "Excel",
+      "Arduino"
+    ]
+  },
+  {
+    "grupo": {
+      "es": "Idiomas",
+      "en": "Languages"
+    },
+    "items": [
+      "Español (nativo)",
+      "Catalán (nativo)",
+      "Inglés (B2)"
+    ],
+    "itemsEn": [
+      "Spanish (native)",
+      "Catalan (native)",
+      "English (B2)"
+    ]
+  }
+]

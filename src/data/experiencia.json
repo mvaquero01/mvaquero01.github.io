@@ -1,0 +1,92 @@
+[
+  {
+    "empresa": "Renishaw",
+    "lugar": {
+      "es": "Departamento de metrología · Barcelona",
+      "en": "Metrology department · Barcelona, Spain"
+    },
+    "puesto": {
+      "es": "Trainee Applications Engineer",
+      "en": "Trainee Applications Engineer"
+    },
+    "inicio": "2026",
+    "fin": null,
+    "logros": {
+      "es": [
+        "Ingeniero de aplicaciones en formación en el departamento de metrología de Renishaw, empresa líder en medición de precisión."
+      ],
+      "en": [
+        "Trainee applications engineer in the metrology department of Renishaw, a world leader in precision measurement."
+      ]
+    },
+    "tecnologias": []
+  },
+  {
+    "empresa": "Alzamora C.F.",
+    "lugar": {
+      "es": "Barcelona",
+      "en": "Barcelona, Spain"
+    },
+    "puesto": {
+      "es": "Entrenador de fútbol",
+      "en": "Football coach"
+    },
+    "inicio": "2024",
+    "fin": null,
+    "logros": {
+      "es": [
+        "Entrenador de equipos de 12 y 16 años: planifico y dirijo las sesiones semanales.",
+        "Gestión del equipo y coordinación con las familias y el cuerpo técnico del club."
+      ],
+      "en": [
+        "Coach of under-12 and under-16 teams: I plan and lead the weekly training sessions.",
+        "Team management and coordination with families and the club's coaching staff."
+      ]
+    },
+    "tecnologias": []
+  },
+  {
+    "empresa": "",
+    "lugar": {
+      "es": "Barcelona",
+      "en": "Barcelona, Spain"
+    },
+    "puesto": {
+      "es": "Profesor particular",
+      "en": "Private tutor"
+    },
+    "inicio": "2023",
+    "fin": null,
+    "logros": {
+      "es": [
+        "Clases de matemáticas, física, química y tecnología a alumnos de ESO y Bachillerato, adaptadas al nivel y al ritmo de cada uno."
+      ],
+      "en": [
+        "Maths, physics, chemistry and technology lessons for secondary and high-school students, adapted to each student's level and pace."
+      ]
+    },
+    "tecnologias": []
+  },
+  {
+    "empresa": "",
+    "lugar": {
+      "es": "Barcelona",
+      "en": "Barcelona, Spain"
+    },
+    "puesto": {
+      "es": "Restauración",
+      "en": "Hospitality"
+    },
+    "inicio": "",
+    "fin": "",
+    "logros": {
+      "es": [
+        "Trabajo en restaurantes de mucha afluencia: ritmos exigentes y coordinación con el equipo."
+      ],
+      "en": [
+        "Work in high-volume restaurants: a demanding pace and close coordination with the team."
+      ]
+    },
+    "tecnologias": []
+  }
+]

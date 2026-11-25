@@ -1,0 +1,29 @@
+---
+// La raíz de la web solo redirige al idioma del visitante (o al que eligió antes).
+import { ruta } from '../i18n/utils';
+const es = ruta('/es/');
+const en = ruta('/en/');
+---
+
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Portfolio</title>
+    <meta name="robots" content="noindex" />
+    <link rel="alternate" hreflang="es" href={es} />
+    <link rel="alternate" hreflang="en" href={en} />
+    <script is:inline define:vars={{ es, en }}>
+      var elegido;
+      try { elegido = localStorage.getItem('idioma'); } catch (e) {}
+      var nav = (navigator.languages || [navigator.language || 'es']).join(',').toLowerCase();
+      var lang = elegido || (/^(es|ca|gl|eu)/.test(nav) ? 'es' : 'en');
+      location.replace((lang === 'es' ? es : en) + location.hash);
+    </script>
+    <noscript><meta http-equiv="refresh" content={`0; url=${es}`} /></noscript>
+  </head>
+  <body style="background:#eef2f8">
+    <p style="font-family:system-ui;padding:2rem"><a href={es}>Español</a> · <a href={en}>English</a></p>
+  </body>
+</html>

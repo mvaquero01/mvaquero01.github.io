@@ -1,0 +1,14 @@
+/* Versión anterior del fondo del menú (cápsula difuminada). Copiar dentro del <style> de NavFlotante.astro para recuperarla. */
+  /* Fondo del menú: una cápsula opaca con los extremos redondos que se
+     difumina de forma continua hacia fuera (desenfocando la propia cápsula).
+     Es algo más grande que el menú para que la zona del texto quede opaca. */
+  .pill::before {
+    content: '';
+    position: absolute;
+    inset: -14px -22px;
+    z-index: -1;
+    pointer-events: none;
+    border-radius: 999px;
+    background: var(--bg);
+    filter: blur(10px);
+  }

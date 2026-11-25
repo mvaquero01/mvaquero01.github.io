@@ -1,0 +1,46 @@
+[
+  {
+    "centro": "ETSEIB · Universitat Politècnica de Catalunya (UPC)",
+    "titulo": {
+      "es": "Grado en Ingeniería Industrial",
+      "en": "BSc in Industrial Engineering"
+    },
+    "lugar": {
+      "es": "Barcelona",
+      "en": "Barcelona, Spain"
+    },
+    "inicio": "2023",
+    "fin": null,
+    "detalles": {
+      "es": [
+        "Cursando 3.º en la Escuela Técnica Superior de Ingeniería Industrial de Barcelona."
+      ],
+      "en": [
+        "Currently in 3rd year at the Barcelona School of Industrial Engineering."
+      ]
+    }
+  },
+  {
+    "centro": "SAFA Sant Andreu",
+    "titulo": {
+      "es": "Bachillerato Tecnológico + Dual Diploma",
+      "en": "Technological Baccalaureate + Dual Diploma"
+    },
+    "lugar": {
+      "es": "Barcelona",
+      "en": "Barcelona, Spain"
+    },
+    "inicio": "2021",
+    "fin": "2023",
+    "detalles": {
+      "es": [
+        "Matrícula de Honor, con una media de 9,64.",
+        "Dual Diploma a la vez: título de bachillerato internacional equivalente al sistema estadounidense."
+      ],
+      "en": [
+        "Graduated with Honours, with an average of 9.64/10.",
+        "Dual Diploma at the same time: an international diploma equivalent to the US high-school diploma."
+      ]
+    }
+  }
+]

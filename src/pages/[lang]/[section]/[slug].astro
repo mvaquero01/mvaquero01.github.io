@@ -1,0 +1,252 @@
+---
+import { getCollection, render } from 'astro:content';
+import Base from '../../../layouts/Base.astro';
+import { idiomas, otroIdioma, seccionProyectos, t, ruta, type Idioma } from '../../../i18n/utils';
+import { proyectosDe, slugDe } from '../../../scripts/proyectos';
+import perfil from '../../../data/perfil.json';
+
+export async function getStaticPaths() {
+  const todos = await getCollection('proyectos');
+  return idiomas.flatMap((lang) => {
+    const lista = proyectosDe(todos, lang);
+    const otros = new Set(proyectosDe(todos, otroIdioma(lang)).map(slugDe));
+    return lista.map((p, i) => ({
+      params: { lang, section: seccionProyectos[lang], slug: slugDe(p) },
+      props: {
+        proyecto: p,
+        anterior: lista[(i - 1 + lista.length) % lista.length],
+        siguiente: lista[(i + 1) % lista.length],
+        traducido: otros.has(slugDe(p)),
+      },
+    }));
+  });
+}
+
+const lang = Astro.params.lang as Idioma;
+const { proyecto, anterior, siguiente, traducido } = Astro.props;
+const d = proyecto.data;
+const slug = slugDe(proyecto);
+const { Content } = await render(proyecto);
+const otro = otroIdioma(lang);
+const alternativa = traducido ? ruta(`/${otro}/${seccionProyectos[otro]}/${slug}/`) : ruta(`/${otro}/`);
+const enlaceProyecto = (p: typeof proyecto) => ruta(`/${lang}/${seccionProyectos[lang]}/${slugDe(p)}/`);
+
+// Vídeo: acepta enlaces de YouTube, de Vimeo o un archivo .mp4 propio
+function incrustar(url: string) {
+  const yt = url.match(/(?:youtu\.be\/|v=|shorts\/|embed\/)([\w-]{11})/);
+  if (yt) return { tipo: 'iframe', src: `https://www.youtube-nocookie.com/embed/${yt[1]}` };
+  const vimeo = url.match(/vimeo\.com\/(\d+)/);
+  if (vimeo) return { tipo: 'iframe', src: `https://player.vimeo.com/video/${vimeo[1]}` };
+  return { tipo: 'video', src: ruta(url) };
+}
+const video = d.video ? incrustar(d.video) : null;
+const ficha = [
+  d.rol && { k: t(lang, 'detalle.rol'), v: d.rol },
+  { k: t(lang, 'detalle.fecha'), v: d.fecha },
+  d.duracion && { k: t(lang, 'detalle.duracion'), v: d.duracion },
+].filter(Boolean) as { k: string; v: string }[];
+const enlaces = [
+  d.enlaces?.github && { texto: 'GitHub', href: d.enlaces.github },
+  d.enlaces?.demo && { texto: 'Demo', href: d.enlaces.demo },
+  d.enlaces?.documento && { texto: lang === 'es' ? 'Documento' : 'Report', href: ruta(d.enlaces.documento) },
+].filter(Boolean) as { texto: string; href: string }[];
+---
+
+<Base lang={lang} titulo={d.titulo} descripcion={d.resumen} imagen={d.portada} alternativa={alternativa}>
+  <main class="detalle">
+    <section class="detalle__intro wrap">
+      <header class="detalle__cabecera">
+        <a class="detalle__volver link" href={ruta(`/${lang}/#proyectos`)}>← {t(lang, 'detalle.volver')}</a>
+        <h1 class="detalle__titulo split">{d.titulo}</h1>
+        <p class="detalle__resumen" data-reveal>{d.resumen}</p>
+        <div class="detalle__ficha" data-reveal>
+          <dl>
+            {ficha.map((f) => (<div><dt>{f.k}</dt><dd>{f.v}</dd></div>))}
+          </dl>
+          <h2 class="detalle__ficha-tit">{t(lang, 'detalle.tecnologias')}</h2>
+          <ul class="tags">{d.tecnologias.map((tec) => <li class="tag">{tec}</li>)}</ul>
+          {enlaces.length > 0 && (
+            <>
+              <h2 class="detalle__ficha-tit">{t(lang, 'detalle.enlaces')}</h2>
+              <ul class="detalle__enlaces">
+                {enlaces.map((e) => <li><a class="link" href={e.href} target="_blank" rel="noopener">{e.texto} ↗</a></li>)}
+              </ul>
+            </>
+          )}
+        </div>
+      </header>
+
+      <div class="detalle__portada">
+        <img src={ruta(d.portada)} alt={d.titulo} />
+      </div>
+    </section>
+
+    <div class="detalle__cuerpo wrap">
+      <article class="prosa">
+        {d.resultados.length > 0 && (
+          <section class="resultados" aria-label={t(lang, 'detalle.resultados')}>
+            {d.resultados.map((r, i) => (
+              <div class="resultado" data-reveal style={`--d:${i}`}>
+                <span class="resultado__valor titular" data-contador={r.valor}>{r.valor}</span>
+                <span class="resultado__etiqueta">{r.etiqueta}</span>
+              </div>
+            ))}
+          </section>
+        )}
+        <Content />
+
+        {video && (
+          <div class="detalle__video" data-reveal>
+            {video.tipo === 'iframe'
+              ? <iframe src={video.src} title={d.titulo} loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+              : <video src={video.src} controls preload="metadata" playsinline></video>}
+          </div>
+        )}
+      </article>
+    </div>
+
+    {d.galeria.length > 0 && (
+      <section class="galeria wrap" aria-label={t(lang, 'detalle.galeria')}>
+        {d.galeria.map((g, i) => (
+          <button class="galeria__item" type="button" data-reveal style={`--d:${i % 3}`} data-ampliar={ruta(g.src)} data-alt={g.alt}>
+            <img src={ruta(g.src)} alt={g.alt} loading="lazy" decoding="async" />
+          </button>
+        ))}
+      </section>
+    )}
+
+    <nav class="detalle__nav wrap" aria-label={t(lang, 'proyectos.titulo')}>
+      <a href={enlaceProyecto(anterior)} class="detalle__nav-a">
+        <span>← {t(lang, 'detalle.anterior')}</span>
+        <strong class="titular">{anterior.data.titulo}</strong>
+      </a>
+      <a href={enlaceProyecto(siguiente)} class="detalle__nav-a detalle__nav-a--sig">
+        <span>{t(lang, 'detalle.siguiente')} →</span>
+        <strong class="titular">{siguiente.data.titulo}</strong>
+      </a>
+    </nav>
+
+    <footer class="pie wrap">
+      <span>© {new Date().getFullYear()} {perfil.nombre} {perfil.apellidos}</span>
+      <a class="link" href={`mailto:${perfil.email}`}>{perfil.email}</a>
+    </footer>
+
+    <dialog class="visor" data-visor>
+      <button type="button" class="visor__cerrar" aria-label={lang === 'es' ? 'Cerrar' : 'Close'} data-cerrar>×</button>
+      <img alt="" />
+    </dialog>
+  </main>
+</Base>
+
+<script>
+  // Visor de imágenes de la galería
+  document.addEventListener('astro:page-load', () => {
+    const visor = document.querySelector<HTMLDialogElement>('[data-visor]');
+    if (!visor) return;
+    const img = visor.querySelector('img')!;
+    document.querySelectorAll<HTMLButtonElement>('[data-ampliar]').forEach((b) =>
+      b.addEventListener('click', () => {
+        img.src = b.dataset.ampliar!;
+        img.alt = b.dataset.alt ?? '';
+        visor.showModal();
+      }),
+    );
+    visor.addEventListener('click', (e) => {
+      if (e.target === visor || (e.target as HTMLElement).closest('[data-cerrar]')) visor.close();
+    });
+  });
+</script>
+
+<style>
+  .detalle { padding-top: 90px; }
+  .detalle__volver { font-size: 0.9rem; color: var(--ink-2); }
+  /* Arriba, dos columnas: a la izquierda el título, el resumen y la ficha;
+     a la derecha la portada entera (sin recortar). */
+  .detalle__intro {
+    display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr);
+    gap: clamp(32px, 5vw, 80px); align-items: center;
+    padding-top: 1rem;
+  }
+  .detalle__titulo { font-size: clamp(2.3rem, 4.4vw, 4.2rem); margin: 1.8rem 0 1rem; max-width: 14ch; }
+  .detalle__resumen { font-size: clamp(1rem, 1.3vw, 1.15rem); color: var(--ink-2); max-width: 46ch; margin: 0 0 2rem; }
+  .detalle__portada img {
+    /* La caja de la imagen tiene sus mismas proporciones: sin franjas ni doble borde */
+    display: block; margin-inline: auto;
+    width: auto; height: auto; max-width: 100%; max-height: min(76svh, 800px);
+    border-radius: 4px; box-shadow: var(--shadow);
+  }
+  /* Debajo, el texto del proyecto en una sola columna, alineado con el título */
+  .detalle__cuerpo { padding-block: clamp(40px, 5vw, 72px) clamp(56px, 8vw, 110px); }
+  .prosa > :global(h2:first-child) { margin-top: 0; }
+  .detalle__ficha { font-size: 0.92rem; max-width: 420px; }
+  .detalle__ficha dl { margin: 0 0 1.8rem; border-top: 1px solid var(--line); }
+  .detalle__ficha dl div { display: flex; justify-content: space-between; gap: 1rem; padding: 0.7rem 0; border-bottom: 1px solid var(--line); }
+  .detalle__ficha dt { color: var(--ink-3); }
+  .detalle__ficha dd { margin: 0; text-align: right; }
+  .detalle__ficha-tit {
+    font: 600 0.85rem/1 var(--mono);
+    color: var(--ink-3); margin: 0 0 0.8rem;
+  }
+  .tags, .detalle__enlaces { list-style: none; padding: 0; margin: 0 0 1.8rem; display: flex; flex-wrap: wrap; gap: 0.4rem; }
+  .detalle__enlaces { flex-direction: column; gap: 0.5rem; }
+
+  .resultados {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 1.5rem;
+    padding-bottom: 2.5rem; margin-bottom: 1rem; border-bottom: 1px solid var(--line);
+  }
+  .resultado__valor { display: block; font-size: clamp(2.4rem, 4.6vw, 3.6rem); color: var(--accent) !important; line-height: 1; font-variant-numeric: tabular-nums; color: var(--ink); }
+  .resultado__etiqueta { display: block; margin-top: 0.4rem; font-size: 0.85rem; color: var(--ink-2); }
+
+  .prosa { max-width: 68ch; color: var(--ink-2); font-size: 1.05rem; }
+  .prosa :global(h2) { font-size: clamp(2rem, 3.6vw, 2.8rem); color: var(--ink); margin: 2.8rem 0 1rem; }
+  .prosa :global(h3) { font-size: 1.5rem; color: var(--ink); margin: 2rem 0 0.6rem; }
+  .prosa :global(strong) { color: var(--ink); font-weight: 600; }
+  .prosa :global(a) { color: var(--ink); text-decoration: underline; text-underline-offset: 3px; }
+  .prosa :global(img) { width: 100%; margin: 1.5rem 0; border: 6px solid var(--card-border); box-shadow: var(--shadow); }
+  .prosa :global(ul), .prosa :global(ol) { padding-left: 1.2rem; }
+  .prosa :global(li) { margin-bottom: 0.35rem; }
+  .prosa :global(blockquote) { margin: 1.5rem 0; padding-left: 1.2rem; border-left: 2px solid var(--accent); font-family: var(--head); font-size: 1.35rem; color: var(--ink); }
+  .prosa :global(code) { font-size: 0.9em; background: var(--bg-2); padding: 0.1em 0.35em; border-radius: 3px; }
+
+  .detalle__video { margin-top: 2.5rem; aspect-ratio: 16 / 9; background: #000; }
+  .detalle__video iframe, .detalle__video video { width: 100%; height: 100%; border: 0; }
+
+  .galeria { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 1rem; padding-bottom: clamp(56px, 8vw, 110px); }
+  .galeria__item { padding: 0; border: 0; background: var(--bg-2); cursor: zoom-in; overflow: hidden; aspect-ratio: 4 / 3; }
+  .galeria__item img { width: 100%; height: 100%; object-fit: cover; transition: transform 1s var(--ease); }
+  .galeria__item:hover img { transform: scale(1.05); }
+
+  .visor { border: 0; padding: 0; background: transparent; max-width: 92vw; max-height: 90vh; overflow: visible; }
+  .visor::backdrop { background: rgba(10, 10, 10, 0.85); backdrop-filter: blur(6px); }
+  .visor[open] { animation: zoom 0.5s var(--ease); }
+  @keyframes zoom { from { opacity: 0; transform: scale(0.94); } }
+  .visor img { max-width: 92vw; max-height: 90vh; object-fit: contain; }
+  .visor__cerrar {
+    position: absolute; top: -48px; right: 0; width: 40px; height: 40px; border-radius: 50%;
+    border: 0; background: #fff; color: #111; font-size: 1.4rem; cursor: pointer;
+  }
+
+  .detalle__nav { display: grid; grid-template-columns: 1fr 1fr; border-top: 1px solid var(--line); }
+  .detalle__nav-a { display: flex; flex-direction: column; gap: 0.4rem; padding: 2.5rem 0; }
+  .detalle__nav-a span { font-family: var(--mono); font-weight: 500; font-size: 0.8rem; color: var(--ink-3); }
+  .detalle__nav-a strong { font-weight: 600; letter-spacing: -0.03em; font-size: clamp(1.4rem, 3vw, 2.4rem); line-height: 1.1; }
+  /* Al pasar el ratón: sube un poco y se pone en color. Siempre en su propia
+     capa para que el texto no se recoloque al acabar de moverse. */
+  .detalle__nav-a span, .detalle__nav-a strong {
+    transition: color 0.3s, transform 0.4s var(--ease);
+    will-change: transform; backface-visibility: hidden;
+  }
+  .detalle__nav-a:hover strong, .detalle__nav-a:hover span { color: var(--accent); transform: translateY(-3px); }
+  .detalle__nav-a--sig { text-align: right; align-items: flex-end; border-left: 1px solid var(--line); }
+
+  .pie {
+    display: flex; justify-content: space-between; gap: 1rem; flex-wrap: wrap;
+    padding-block: 1.5rem 110px; border-top: 1px solid var(--line); font-size: 0.8rem; color: var(--ink-3);
+  }
+
+  @media (max-width: 860px) {
+    .detalle__intro { grid-template-columns: 1fr; min-height: 0; }
+    .detalle__nav { grid-template-columns: 1fr; }
+    .detalle__nav-a--sig { border-left: 0; border-top: 1px solid var(--line); }
+  }
+</style>

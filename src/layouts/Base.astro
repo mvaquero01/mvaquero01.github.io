@@ -1,0 +1,124 @@
+---
+import { ClientRouter } from 'astro:transitions';
+import '@fontsource-variable/sora';
+import '@fontsource/ibm-plex-sans/latin-400.css';
+import '@fontsource/ibm-plex-sans/latin-500.css';
+import '@fontsource/ibm-plex-sans/latin-600.css';
+import '../styles/global.css';
+import Controles from '../components/Controles.astro';
+import NavFlotante from '../components/NavFlotante.astro';
+import { t, type Idioma } from '../i18n/utils';
+import perfil from '../data/perfil.json';
+
+interface Props {
+  lang: Idioma;
+  titulo?: string;
+  descripcion?: string;
+  imagen?: string;
+  /** Ruta equivalente en el otro idioma (para el botón ES/EN y para Google). */
+  alternativa: string;
+  inicio?: boolean;
+}
+
+const { lang, titulo, descripcion, imagen, alternativa, inicio = false } = Astro.props;
+const nombre = `${perfil.nombre} ${perfil.apellidos}`;
+const tituloCompleto = titulo ? `${titulo} · ${nombre}` : `${nombre} · ${t(lang, 'meta.titulo')}`;
+const desc = descripcion ?? t(lang, 'meta.descripcion');
+const canonica = new URL(Astro.url.pathname, Astro.site);
+const alt = new URL(alternativa, Astro.site);
+const og = imagen ? new URL(imagen, Astro.site) : undefined;
+---
+
+<!doctype html>
+<html lang={lang}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{tituloCompleto}</title>
+    <meta name="description" content={desc} />
+    <link rel="canonical" href={canonica} />
+    <link rel="alternate" hreflang={lang === 'es' ? 'en' : 'es'} href={alt} />
+    <link rel="alternate" hreflang={lang} href={canonica} />
+    <link rel="icon" href={`${import.meta.env.BASE_URL}favicon.svg`} type="image/svg+xml" />
+    <meta property="og:title" content={tituloCompleto} />
+    <meta property="og:description" content={desc} />
+    <meta property="og:type" content="website" />
+    {og && <meta property="og:image" content={og} />}
+    <meta name="theme-color" content="#12306a" />
+
+    <!-- Antes de pintar: tema guardado (o el del sistema) y marca de que hay JS -->
+    <script is:inline>
+      (function () {
+        var d = document.documentElement;
+        var tema;
+        try { tema = localStorage.getItem('tema'); } catch (e) {}
+        if (!tema) tema = matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+        d.dataset.theme = tema;
+        d.classList.add('js');
+      })();
+      document.addEventListener('astro:after-swap', function () {
+        var d = document.documentElement;
+        var tema;
+        try { tema = localStorage.getItem('tema'); } catch (e) {}
+        if (!tema) tema = matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+        d.dataset.theme = tema;
+        d.classList.add('js');
+      });
+    </script>
+    <ClientRouter fallback="swap" />
+  </head>
+  <body data-inicio={inicio ? '' : undefined}>
+    <div class="progress" aria-hidden="true"></div>
+    <Controles lang={lang} alternativa={alternativa} inicio={inicio} />
+    <slot />
+    <NavFlotante lang={lang} alternativa={alternativa} />
+    <script>
+      import { iniciarAnimaciones } from '../scripts/animaciones';
+      document.addEventListener('astro:page-load', iniciarAnimaciones);
+
+      // Dirección de la transición: entrar en un proyecto desliza hacia un lado
+      // y volver, hacia el otro. Durante el cambio, el salto a la sección
+      // (p. ej. #proyectos) es directo, sin el desplazamiento suave desde arriba.
+      let direccion = '';
+      const esProyecto = (u: URL) => /\/(proyectos|projects)\/[^/]+/.test(u.pathname);
+      const marcar = () => {
+        const d = document.documentElement;
+        // A partir de la segunda página, nada repite su animación de entrada
+        d.classList.add('ya-cargada');
+        if (direccion) d.dataset.direccion = direccion;
+        d.style.scrollBehavior = 'auto';
+      };
+      document.addEventListener('astro:before-preparation', (e) => {
+        const ev = e as Event & { from: URL; to: URL };
+        direccion = esProyecto(ev.to) ? 'adelante' : esProyecto(ev.from) ? 'atras' : '';
+        marcar();
+      });
+      document.addEventListener('astro:after-swap', marcar);
+      // Las marcas se quitan cuando el navegador da la transición por acabada.
+      // Si se quitan antes, en los últimos milisegundos entra otra animación
+      // y la transición se ve dos veces.
+      let transicion: { finished: Promise<void> } | undefined;
+      document.addEventListener('astro:before-swap', (e) => {
+        const ev = e as Event & { viewTransition?: { finished: Promise<void> }; newDocument: Document };
+        transicion = ev.viewTransition;
+        // Las marcas van ya en la página nueva, para que no se pierdan ni un
+        // instante al cambiar (si no, se ve un fotograma raro)
+        const n = ev.newDocument.documentElement;
+        n.classList.add('js', 'ya-cargada');
+        if (direccion) n.dataset.direccion = direccion;
+        n.style.scrollBehavior = 'auto';
+        const tema = document.documentElement.dataset.theme;
+        if (tema) n.dataset.theme = tema;
+      });
+      document.addEventListener('astro:page-load', async () => {
+        try { await transicion?.finished; } catch {}
+        await new Promise((r) => setTimeout(r, 50));
+        const d = document.documentElement;
+        delete d.dataset.direccion;
+        d.style.scrollBehavior = '';
+        d.classList.remove('al-momento');
+        transicion = undefined;
+      });
+    </script>
+  </body>
+</html>

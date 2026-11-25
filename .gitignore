@@ -1,0 +1,11 @@
+node_modules/
+dist/
+.astro/
+.DS_Store
+
+# Fotos originales a máxima calidad (la web usa las de public/img)
+fotos-originales/
+# CV suelto de la raíz (el que se descarga está en public/cv)
+/CV_*.pdf
+# Ajustes locales de Claude
+.claude/

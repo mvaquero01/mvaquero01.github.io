@@ -1,0 +1,270 @@
+---
+// Portada: tu nombre arriba a la izquierda, tu perfil arriba a la derecha y,
+// en el centro, el carrusel en arco con los proyectos. Al girarlo, los textos
+// de arriba pasan a contar el proyecto del centro.
+import type { CollectionEntry } from 'astro:content';
+import { t, bi, ruta, seccionProyectos, type Idioma } from '../i18n/utils';
+import perfil from '../data/perfil.json';
+
+interface Props { lang: Idioma; proyectos: CollectionEntry<'proyectos'>[] }
+const { lang, proyectos } = Astro.props;
+
+const slug = (p: CollectionEntry<'proyectos'>) => p.id.split('/').slice(1).join('/');
+const items = proyectos.map((p) => ({
+  titulo: p.data.titulo,
+  resumen: p.data.resumen,
+  anio: p.data.fecha.slice(0, 4),
+  etiqueta: p.data.tecnologias.slice(0, 2).join(' · '),
+  portada: ruta(p.data.portada),
+  href: ruta(`/${lang}/${seccionProyectos[lang]}/${slug(p)}/`),
+}));
+const roles = bi(perfil.roles, lang);
+const primero = items[0];
+// Con pocos proyectos el arco quedaría vacío: se repiten las tarjetas
+// (las copias no las lee el lector de pantalla).
+const copias = Math.max(1, Math.ceil(9 / Math.max(1, items.length)));
+const cartas = Array.from({ length: copias }, (_, c) => items.map((it, o) => ({ ...it, o, copia: c > 0 }))).flat();
+const dos = (n: number) => String(n).padStart(2, '0');
+---
+
+<section id="inicio" class="hero" data-hero>
+  <div class="hero__top">
+    <div class="hero__info" aria-live="polite">
+      <p class="hero__contador"><span data-campo="num">{dos(1)}</span> / {dos(items.length)}</p>
+      <!-- Los textos de todos los proyectos ocupan la misma celda (invisibles):
+           así el bloque tiene siempre el alto del más largo, se lee entero sin
+           puntos suspensivos y nada se mueve al cambiar de proyecto -->
+      <div class="hero__pila">
+        {items.map((it) => <h2 class="hero__titulo titular hero__medida" aria-hidden="true">{it.titulo}</h2>)}
+        <h2 class="hero__titulo titular" data-campo="titulo">{primero?.titulo}</h2>
+      </div>
+      <div class="hero__pila">
+        {items.map((it) => <p class="hero__resumen hero__medida" aria-hidden="true">{it.resumen}</p>)}
+        <p class="hero__resumen" data-campo="resumen">{primero?.resumen}</p>
+      </div>
+      <p class="hero__anio"><span data-campo="anio">{primero?.anio}</span> · <span data-campo="etiqueta">{primero?.etiqueta}</span></p>
+    </div>
+    <div class="hero__yo">
+      <h1 class="hero__nombre titular">{perfil.nombre} {perfil.apellidos}</h1>
+      <p class="hero__roles" data-roles={JSON.stringify(roles)}><span>{roles[0]}</span></p>
+    </div>
+  </div>
+
+  <canvas class="halo" aria-hidden="true" data-halo></canvas>
+
+  <div class="carrusel" data-carrusel tabindex="0" role="region" aria-roledescription="carrusel" aria-label={t(lang, 'proyectos.titulo')}>
+    {cartas.map((it, i) => (
+      <a
+        class="carta"
+        href={it.href}
+        data-o={it.o}
+        aria-hidden={it.copia ? 'true' : undefined}
+        tabindex={it.copia ? -1 : undefined}
+        data-titulo={it.titulo}
+        data-resumen={it.resumen}
+        data-anio={it.anio}
+        data-etiqueta={it.etiqueta}
+        aria-label={`${t(lang, 'proyectos.ver')}: ${it.titulo}`}
+        draggable="false"
+      >
+        <img src={it.portada} alt="" loading={it.copia ? 'lazy' : undefined} decoding="async" draggable="false" />
+      </a>
+    ))}
+  </div>
+
+  <div class="hero__pie">
+    <a class="btn btn--solid" href={perfil.cv[lang]} download>{t(lang, 'hero.cv')} <span class="arrow" aria-hidden="true">↓</span></a>
+  </div>
+</section>
+
+<script>
+  import { iniciarCarrusel } from '../scripts/carrusel';
+  document.addEventListener('astro:page-load', iniciarCarrusel);
+</script>
+
+<style>
+  .hero {
+    position: relative;
+    min-height: 100svh;
+    touch-action: pan-y;
+
+    display: grid;
+    grid-template-rows: auto 1fr auto;
+    padding: clamp(20px, 3.2vw, 40px) var(--gutter) 118px;
+    /* Solo se recorta a los lados: por abajo nada queda cortado */
+    overflow-x: clip;
+  }
+  .hero__top {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 2rem;
+    position: relative;
+    z-index: 2;
+  }
+  .hero__info {
+    max-width: 40ch;
+  }
+  .hero__contador {
+    margin: 0 0 0.5rem;
+    font-family: var(--mono);
+    font-weight: 500;
+    font-size: 0.78rem;
+    letter-spacing: 0.01em;
+    color: var(--accent);
+    font-variant-numeric: tabular-nums;
+  }
+  /* Alto fijo (2 líneas) para que al cambiar de proyecto nada se mueva */
+  .hero__titulo {
+    font-size: clamp(1.4rem, 2.3vw, 2rem);
+    line-height: 1.1;
+  }
+  .hero__pila { display: grid; }
+  .hero__pila > * { grid-area: 1 / 1; }
+  .hero__medida { visibility: hidden; }
+  .hero__resumen {
+    margin: 0.9rem 0 0.6rem;
+    font-size: 0.88rem;
+    line-height: 1.45;
+    color: var(--ink-2);
+  }
+  .hero__anio {
+    margin: 0;
+    font-family: var(--mono);
+    font-weight: 500;
+    font-size: 0.8rem;
+  }
+  .hero__yo {
+    text-align: right;
+  }
+  .hero__nombre {
+    font-size: clamp(1.9rem, 3.8vw, 3.3rem);
+    line-height: 1;
+  }
+  .hero__roles {
+    margin: 0.5rem 0 0;
+    font-size: 0.9rem;
+    color: var(--ink-2);
+    line-height: 1.6;
+    height: 1.6em;
+    overflow: hidden;
+  }
+  .hero__roles span {
+    display: inline-block;
+    transition: transform 0.6s var(--ease), opacity 0.6s var(--ease);
+  }
+  .hero__roles span.fuera {
+    transform: translateY(-110%);
+    opacity: 0;
+  }
+  .hero__roles span.entrando {
+    transform: translateY(110%);
+    opacity: 0;
+    transition: none;
+  }
+  .hero__info {
+    transition: opacity 0.22s ease, transform 0.22s ease;
+  }
+  .hero__info.saliendo {
+    opacity: 0;
+    transform: translateY(-6px);
+  }
+
+  /* Entrada de los textos al cargar */
+  .hero__top > * {
+    animation: subir 1.2s var(--ease) backwards;
+  }
+  .hero__yo { animation-delay: 0.15s !important; }
+  :global(html.ya-cargada) .hero__top > *,
+  :global(html.ya-cargada) .hero__pie { animation: none; }
+  @keyframes subir {
+    from { opacity: 0; transform: translateY(20px); }
+  }
+
+  /* ----- Carrusel ----- */
+  .carrusel {
+    /* Tamaño de la tarjeta central */
+    --w: clamp(150px, 21vw, 300px);
+    position: relative;
+    height: calc(var(--w) * 1.45);
+    align-self: center;
+    margin-inline: calc(-1 * var(--gutter));
+    touch-action: pan-y;
+    user-select: none;
+    -webkit-user-select: none;
+    cursor: grab;
+    outline: none;
+    perspective: 1400px;
+  }
+  .carrusel.arrastrando { cursor: grabbing; }
+  /* Halo de luz que sigue la curva de la rueda (lo dibuja carrusel.ts).
+     Ocupa toda la portada y se desvanece hacia abajo para que no se corte. */
+  .halo {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    color: var(--halo);
+    opacity: 0;
+    -webkit-mask-image: linear-gradient(to bottom, #000 0%, #000 62%, transparent 92%);
+    mask-image: linear-gradient(to bottom, #000 0%, #000 62%, transparent 92%);
+    pointer-events: none;
+    transition: opacity 1.6s var(--ease) 0.4s;
+  }
+  .halo.listo { opacity: 0.32; }
+  :global([data-theme='dark']) .halo.listo { opacity: 0.42; }
+  .carta {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: var(--w);
+    aspect-ratio: 1;
+    margin: calc(var(--w) / -2) 0 0 calc(var(--w) / -2);
+    /* Sin marco: solo la imagen, con las esquinas apenas redondeadas, como en la lista de proyectos */
+    border-radius: 4px;
+    overflow: hidden;
+    box-shadow: var(--shadow);
+    will-change: transform;
+    transform: translate3d(0, 40px, 0) scale(0.6);
+    opacity: 0;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .carta img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    pointer-events: none;
+    filter: grayscale(var(--gris, 0)) brightness(var(--luz, 1));
+    transition: filter 0.4s;
+  }
+  .carrusel:focus-visible .carta.centro {
+    outline: 2px solid var(--ink);
+    outline-offset: 4px;
+  }
+
+  .hero__pie {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    z-index: 2;
+    animation: subir 1.2s var(--ease) 0.5s backwards;
+  }
+  .hero__pista {
+    font-size: 0.78rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--ink-3);
+  }
+
+  @media (max-width: 700px) {
+    .hero { padding-bottom: 88px; }
+    .hero__top { flex-direction: column; gap: 1.2rem; }
+    .hero__yo { text-align: left; order: -1; }
+    .hero__titulo { font-size: 1.3rem; }
+    
+    .carrusel { --w: 58vw; }
+    .hero__pie { justify-content: center; }
+    .hero__pista { display: none; }
+  }
+</style>

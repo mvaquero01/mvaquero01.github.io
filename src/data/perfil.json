@@ -1,0 +1,83 @@
+{
+  "nombre": "Mario",
+  "apellidos": "Vaquero",
+  "email": "mvaquero010305@gmail.com",
+  "linkedin": "https://www.linkedin.com/in/mario-vaquero-toribio-79001b3b0/",
+  "github": "https://github.com/mvaquero01",
+  "ubicacion": "Barcelona",
+  "foto": "/img/perfil/foto.jpg",
+  "cv": {
+    "es": "/cv/CV_Mario_ES.pdf",
+    "en": "/cv/CV_Mario_ES.pdf"
+  },
+  "roles": {
+    "es": [
+      "Ingeniería Industrial",
+      "Diseño CAD",
+      "Simulación FEM",
+      "Metrología"
+    ],
+    "en": [
+      "Industrial Engineering",
+      "CAD design",
+      "FEM simulation",
+      "Metrology"
+    ]
+  },
+  "lema": {
+    "es": "Estudiante de Ingeniería Industrial en la ETSEIB (UPC). Me gusta entender cómo funcionan las cosas y hacer que funcionen mejor.",
+    "en": "Industrial Engineering student at ETSEIB (UPC). I like understanding how things work, and making them work better."
+  },
+  "sobreMi": {
+    "es": [
+      "Estudio Ingeniería Industrial en la ETSEIB (UPC), en Barcelona, y trabajo como Trainee Applications Engineer en el departamento de metrología de Renishaw.",
+      "Me mueve la curiosidad por cómo funcionan las cosas. He modelado piezas reales en SolidWorks, simulado componentes con Ansys y construido un contador Geiger con Arduino. En 2025 gané el 3er premio del Concurso Atracción de Talento de la Sociedad Nuclear Española.",
+      "Fuera de la ingeniería entreno equipos de fútbol juvenil y doy clases particulares de ciencias: me han enseñado a organizar, a explicar y a trabajar en equipo.",
+      "Ahora busco un máster en el extranjero (EE. UU. o Reino Unido) para seguir creciendo como ingeniero."
+    ],
+    "en": [
+      "I study Industrial Engineering at ETSEIB (UPC) in Barcelona, and I work as a Trainee Applications Engineer in Renishaw's metrology department.",
+      "I am driven by curiosity about how things work. I have modelled real parts in SolidWorks, simulated components in Ansys and built a Geiger counter with Arduino. In 2025 I won 3rd prize in the Spanish Nuclear Society's Talent Attraction Competition.",
+      "Outside engineering I coach youth football teams and tutor secondary-school science: it has taught me to organise, to explain and to work in a team.",
+      "I am now looking for a master's programme abroad (US or UK) to keep growing as an engineer."
+    ]
+  },
+  "datos": {
+    "es": [
+      {
+        "icono": "pin",
+        "texto": "Barcelona, España"
+      },
+      {
+        "icono": "grad",
+        "texto": "Ingeniería Industrial · ETSEIB (UPC)"
+      },
+      {
+        "icono": "work",
+        "texto": "Renishaw · Metrología"
+      },
+      {
+        "icono": "globe",
+        "texto": "Español y catalán nativos · Inglés B2"
+      }
+    ],
+    "en": [
+      {
+        "icono": "pin",
+        "texto": "Barcelona, Spain"
+      },
+      {
+        "icono": "grad",
+        "texto": "Industrial Engineering · ETSEIB (UPC)"
+      },
+      {
+        "icono": "work",
+        "texto": "Renishaw · Metrology"
+      },
+      {
+        "icono": "globe",
+        "texto": "Native Spanish & Catalan · English B2"
+      }
+    ]
+  }
+}
