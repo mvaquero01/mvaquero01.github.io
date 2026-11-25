@@ -242,27 +242,38 @@ export function iniciarCarrusel() {
     ctx.setTransform(1 / REDUCCION, 0, 0, 1 / REDUCCION, 0, 0);
     ctx.clearRect(0, 0, h.width, h.height);
     const color = getComputedStyle(halo).color;
-    const x0 = ox - ancho * 5, x1 = ox + ancho * 5;
-    const grad = ctx.createLinearGradient(x0, 0, x1, 0);
-    const con = (a: number) => color.replace(/rgba?\(([^)]+)\)/, (_, v) => `rgba(${v.split(',').slice(0, 3).join(',')},${a})`);
-    grad.addColorStop(0, con(0));
-    grad.addColorStop(0.3, con(0.7));
-    grad.addColorStop(0.5, con(1));
-    grad.addColorStop(0.7, con(0.7));
-    grad.addColorStop(1, con(0));
-    ctx.filter = `blur(${(ancho * 0.16) / REDUCCION}px)`;
-    ctx.strokeStyle = grad;
+    // Desenfoque con sombra (shadowBlur), que funciona en todos los navegadores,
+    // también en iPhone (Safari no admite ctx.filter). Se dibuja la línea fuera
+    // del lienzo y solo se ve su sombra borrosa, desplazada a su sitio.
+    const fuera = h.width * 2;
+    ctx.shadowColor = color;
+    ctx.shadowBlur = ((ancho * 0.16) / REDUCCION) * 2;
+    ctx.shadowOffsetX = fuera / REDUCCION;
+    ctx.strokeStyle = color;
     ctx.lineWidth = ancho * 0.75;
     ctx.lineCap = 'round';
     ctx.lineJoin = 'round';
     ctx.beginPath();
     for (let d = -4.5; d <= 4.51; d += 0.25) {
       const a = Math.abs(d);
-      const x = ox + ancho * (d * AJUSTE.separacion - Math.sign(d) * AJUSTE.apriete * Math.min(a, 4) * a);
+      const x = ox + ancho * (d * AJUSTE.separacion - Math.sign(d) * AJUSTE.apriete * Math.min(a, 4) * a) - fuera;
       const y = oy + ancho * AJUSTE.curva * d * d;
       if (d === -4.5) ctx.moveTo(x, y); else ctx.lineTo(x, y);
     }
     ctx.stroke();
+    // Se desvanece hacia los lados
+    ctx.shadowColor = 'transparent';
+    ctx.globalCompositeOperation = 'destination-in';
+    const x0 = ox - ancho * 5, x1 = ox + ancho * 5;
+    const grad = ctx.createLinearGradient(x0, 0, x1, 0);
+    grad.addColorStop(0, 'rgba(0,0,0,0)');
+    grad.addColorStop(0.3, 'rgba(0,0,0,0.7)');
+    grad.addColorStop(0.5, 'rgba(0,0,0,1)');
+    grad.addColorStop(0.7, 'rgba(0,0,0,0.7)');
+    grad.addColorStop(1, 'rgba(0,0,0,0)');
+    ctx.fillStyle = grad;
+    ctx.fillRect(0, 0, h.width, h.height);
+    ctx.globalCompositeOperation = 'source-over';
     halo.classList.add('listo');
   }
   // Al cambiar de tema cambia el color del halo
