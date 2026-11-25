@@ -245,7 +245,8 @@ export function iniciarCarrusel() {
     // Desenfoque con sombra (shadowBlur), que funciona en todos los navegadores,
     // también en iPhone (Safari no admite ctx.filter). Se dibuja la línea fuera
     // del lienzo y solo se ve su sombra borrosa, desplazada a su sitio.
-    const fuera = h.width * 2;
+    // Lo bastante lejos para que la línea original nunca caiga dentro del lienzo
+    const fuera = h.width + ancho * 12;
     ctx.shadowColor = color;
     ctx.shadowBlur = ((ancho * 0.16) / REDUCCION) * 2;
     ctx.shadowOffsetX = fuera / REDUCCION;
