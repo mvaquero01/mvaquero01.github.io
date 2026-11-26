@@ -26,6 +26,7 @@ const sitio = (...partes: string[]) => partes.filter(Boolean).join(' · ');
 const iconosEntrada: Record<string, string> = {
   balon: 'M12 3a9 9 0 1 0 0 18 9 9 0 0 0 0-18Zm0 4.5 3.3 2.4-1.3 3.9h-4l-1.3-3.9L12 7.5ZM12 3v4.5M15.3 9.9l4.4-1.6M14 13.8l2.6 3.9M10 13.8l-2.6 3.9M8.7 9.9 4.3 8.3',
   libro: 'M4 5.5C4 4.7 4.7 4 5.5 4H11v15H5.5C4.7 19 4 18.3 4 17.5v-12ZM20 5.5c0-.8-.7-1.5-1.5-1.5H13v15h5.5c.8 0 1.5-.7 1.5-1.5v-12Z',
+  escuela: 'M3 10 12 5l9 5-9 5-9-5Zm3.5 2v4.5c1.5 1.7 9.5 1.7 11 0V12M21 10v5',
   camion: 'M3 7h11v9H3V7Zm11 3h4l3 3v3h-7v-6ZM7 18.5a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3Zm10 0a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3Z',
 };
 const iconos: Record<string, string> = {
@@ -103,19 +104,17 @@ const iconos: Record<string, string> = {
   <ol class="linea">
     {experiencia.map((e, i) => (
       <li class="linea__item" data-reveal style={`--d:${i}`}>
-        <span class="linea__fecha">{periodo(e.inicio, e.fin)}</span>
+        <div class="linea__lado">
+          <span class="linea__fecha">{periodo(e.inicio, e.fin)}</span>
+          <span class="linea__logo" aria-hidden="true">
+            {e.logo
+              ? <img src={ruta(e.logo)} alt="" loading="lazy" />
+              : <svg viewBox="0 0 24 24" width="26" height="26"><path d={iconosEntrada[e.icono ?? 'libro']} fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round" /></svg>}
+          </span>
+        </div>
         <div>
-          <div class="linea__cab">
-            <span class="linea__logo" aria-hidden="true">
-              {e.logo
-                ? <img src={ruta(e.logo)} alt="" loading="lazy" />
-                : <svg viewBox="0 0 24 24" width="26" height="26"><path d={iconosEntrada[e.icono ?? 'libro']} fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round" /></svg>}
-            </span>
-            <div>
-              <h3 class="linea__titulo titular">{bi(e.puesto, lang)}</h3>
-              <p class="linea__sitio">{sitio(typeof e.empresa === 'string' ? e.empresa : bi(e.empresa, lang), bi(e.lugar, lang))}</p>
-            </div>
-          </div>
+          <h3 class="linea__titulo titular">{bi(e.puesto, lang)}</h3>
+          <p class="linea__sitio">{sitio(typeof e.empresa === 'string' ? e.empresa : bi(e.empresa, lang), bi(e.lugar, lang))}</p>
           <ul class="linea__puntos">
             {bi(e.logros, lang).map((l) => <li>{l}</li>)}
           </ul>
@@ -137,19 +136,17 @@ const iconos: Record<string, string> = {
   <ol class="linea">
     {formacion.map((f, i) => (
       <li class="linea__item" data-reveal style={`--d:${i}`}>
-        <span class="linea__fecha">{periodo(f.inicio, f.fin)}</span>
+        <div class="linea__lado">
+          <span class="linea__fecha">{periodo(f.inicio, f.fin)}</span>
+          <span class="linea__logo" aria-hidden="true">
+            {f.logo
+              ? <img src={ruta(f.logo)} alt="" loading="lazy" />
+              : <svg viewBox="0 0 24 24" width="26" height="26"><path d={iconosEntrada[f.icono ?? 'libro']} fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round" /></svg>}
+          </span>
+        </div>
         <div>
-          <div class="linea__cab">
-            <span class="linea__logo" aria-hidden="true">
-              {f.logo
-                ? <img src={ruta(f.logo)} alt="" loading="lazy" />
-                : <svg viewBox="0 0 24 24" width="26" height="26"><path d={iconosEntrada[f.icono ?? 'libro']} fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round" /></svg>}
-            </span>
-            <div>
-              <h3 class="linea__titulo titular">{bi(f.titulo, lang)}</h3>
-              <p class="linea__sitio">{f.centro} · {bi(f.lugar, lang)}</p>
-            </div>
-          </div>
+          <h3 class="linea__titulo titular">{bi(f.titulo, lang)}</h3>
+          <p class="linea__sitio">{f.centro} · {bi(f.lugar, lang)}</p>
           <ul class="linea__puntos">
             {bi(f.detalles, lang).map((l) => <li>{l}</li>)}
           </ul>
@@ -169,19 +166,17 @@ const iconos: Record<string, string> = {
   <ol class="linea">
     {premios.map((p, i) => (
       <li class="linea__item" data-reveal style={`--d:${i}`}>
-        <span class="linea__fecha">{p.anio}</span>
+        <div class="linea__lado">
+          <span class="linea__fecha">{p.anio}</span>
+          <span class="linea__logo" aria-hidden="true">
+            {p.logo
+              ? <img src={ruta(p.logo)} alt="" loading="lazy" />
+              : <svg viewBox="0 0 24 24" width="26" height="26"><path d={iconosEntrada[p.icono ?? 'libro']} fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round" /></svg>}
+          </span>
+        </div>
         <div>
-          <div class="linea__cab">
-            <span class="linea__logo" aria-hidden="true">
-              {p.logo
-                ? <img src={ruta(p.logo)} alt="" loading="lazy" />
-                : <svg viewBox="0 0 24 24" width="26" height="26"><path d={iconosEntrada[p.icono ?? 'libro']} fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round" /></svg>}
-            </span>
-            <div>
-              <h3 class="linea__titulo titular">{bi(p.titulo, lang)}</h3>
-              <p class="linea__sitio">{bi(p.entidad, lang)}</p>
-            </div>
-          </div>
+          <h3 class="linea__titulo titular">{bi(p.titulo, lang)}</h3>
+          <p class="linea__sitio">{bi(p.entidad, lang)}</p>
           <ul class="linea__puntos">
             {bi(p.detalles, lang).map((l) => <li>{l}</li>)}
           </ul>
@@ -316,16 +311,15 @@ const iconos: Record<string, string> = {
   .linea__item.is-in::before,
   html:not(.js) .linea__item::before { background-size: 100% 100%; }
   /* Logo de la empresa o del centro: en una ficha blanca del mismo tamaño
-     para todos, así se ve bien con cualquier logo y en los dos temas */
-  .linea__cab { display: flex; align-items: center; gap: 1.1rem; }
+     para todos, debajo de la fecha (así el título no se mueve) */
+  .linea__lado { display: flex; flex-direction: column; align-items: flex-start; gap: 0.9rem; }
   .linea__logo {
     flex: none; width: 104px; height: 56px; border-radius: 8px; background: #fff;
     display: grid; place-items: center; padding: 8px 10px; box-shadow: var(--shadow);
-    color: var(--navy);
+    color: var(--navy); overflow: hidden;
   }
-  .linea__logo { overflow: hidden; }
   .linea__logo img { width: 100%; height: 100%; min-height: 0; object-fit: contain; }
-  @media (max-width: 560px) { .linea__logo { width: 76px; height: 44px; padding: 6px 8px; } }
+
   .linea__fecha { font-family: var(--mono); font-weight: 500; font-size: 0.8rem; color: var(--ink-3); font-variant-numeric: tabular-nums; padding-top: 0.5rem; }
   .linea__titulo { font-size: clamp(1.6rem, 3vw, 2.4rem); }
   .linea__sitio { margin: 0.3rem 0 0.8rem; color: var(--ink-2); font-weight: 500; font-size: 0.95rem; }
@@ -365,16 +359,8 @@ const iconos: Record<string, string> = {
     .lista-proyectos > li:nth-child(even),
     .js .lista-proyectos > li[data-reveal]:nth-child(even).is-in { transform: none; }
     .linea__item { grid-template-columns: 1fr; gap: 0.25rem; }
-    /* Logo de la empresa o del centro: en una ficha blanca del mismo tamaño
-     para todos, así se ve bien con cualquier logo y en los dos temas */
-  .linea__cab { display: flex; align-items: center; gap: 1.1rem; }
-  .linea__logo {
-    flex: none; width: 104px; height: 56px; border-radius: 8px; background: #fff;
-    display: grid; place-items: center; padding: 8px 10px; box-shadow: var(--shadow);
-    color: var(--navy);
-  }
-  .linea__logo img { max-width: 100%; max-height: 100%; object-fit: contain; }
-  @media (max-width: 560px) { .linea__logo { width: 76px; height: 44px; padding: 6px 8px; } }
-  .linea__fecha { padding-top: 0; }
+    .linea__lado { flex-direction: row; align-items: center; justify-content: space-between; }
+    .linea__logo { width: 76px; height: 44px; padding: 6px 8px; }
+    .linea__fecha { padding-top: 0; }
   }
 </style>
