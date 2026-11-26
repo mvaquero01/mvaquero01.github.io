@@ -39,31 +39,6 @@
     ]
   },
   {
-    "empresa": {
-      "es": "Restauración",
-      "en": "Hospitality"
-    },
-    "lugar": {
-      "es": "Barcelona",
-      "en": "Barcelona, Spain"
-    },
-    "puesto": {
-      "es": "Personal de sala",
-      "en": "Front-of-house staff"
-    },
-    "inicio": "2025",
-    "fin": "2025",
-    "logros": {
-      "es": [
-        "Trabajo en restaurantes de mucha afluencia: ritmos exigentes y coordinación con el equipo."
-      ],
-      "en": [
-        "Work in high-volume restaurants: a demanding pace and close coordination with the team."
-      ]
-    },
-    "tecnologias": []
-  },
-  {
     "empresa": "Alzamora C.F.",
     "lugar": {
       "es": "Barcelona",
@@ -105,6 +80,31 @@
       ],
       "en": [
         "Maths, physics, chemistry and technology lessons for secondary and high-school students, adapted to each student's level and pace."
+      ]
+    },
+    "tecnologias": []
+  },
+  {
+    "empresa": {
+      "es": "Food truck",
+      "en": "Food truck"
+    },
+    "lugar": {
+      "es": "Barcelona",
+      "en": "Barcelona, Spain"
+    },
+    "puesto": {
+      "es": "Atención al cliente",
+      "en": "Customer service"
+    },
+    "inicio": "2025",
+    "fin": "2025",
+    "logros": {
+      "es": [
+        "Servicio y atención al cliente en un food truck: trabajo rápido en un espacio reducido y coordinación constante con el equipo."
+      ],
+      "en": [
+        "Customer service in a food truck: fast-paced work in a small space with constant team coordination."
       ]
     },
     "tecnologias": []
