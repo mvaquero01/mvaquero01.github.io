@@ -21,7 +21,7 @@ const imagenLista = (portada: string) => {
   const lista = portada.replace(/portada\.(\w+)$/, 'portada-lista.$1');
   return lista !== portada && existsSync(`public${lista}`) ? lista : portada;
 };
-const periodo = (ini: string, fin: string | null) => (ini ? `${ini} — ${fin ?? t(lang, 'actual')}` : '');
+const periodo = (ini: string, fin: string | null) => (!ini ? '' : ini === fin ? ini : `${ini} — ${fin ?? t(lang, 'actual')}`);
 const sitio = (...partes: string[]) => partes.filter(Boolean).join(' · ');
 const iconos: Record<string, string> = {
   pin: 'M12 21s-7-6.2-7-11.5A7 7 0 0 1 19 9.5C19 14.8 12 21 12 21Zm0-9a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5Z',
@@ -101,12 +101,12 @@ const iconos: Record<string, string> = {
         <span class="linea__fecha">{periodo(e.inicio, e.fin)}</span>
         <div>
           <h3 class="linea__titulo titular">{bi(e.puesto, lang)}</h3>
-          <p class="linea__sitio">{sitio(e.empresa, bi(e.lugar, lang))}</p>
+          <p class="linea__sitio">{sitio(typeof e.empresa === 'string' ? e.empresa : bi(e.empresa, lang), bi(e.lugar, lang))}</p>
           <ul class="linea__puntos">
             {bi(e.logros, lang).map((l) => <li>{l}</li>)}
           </ul>
           {e.tecnologias.length > 0 && (
-            <ul class="proyecto__tags">{e.tecnologias.map((tec: string) => <li class="tag">{tec}</li>)}</ul>
+            <ul class="proyecto__tags">{(lang === 'en' && e.tecnologiasEn ? e.tecnologiasEn : e.tecnologias).map((tec: string) => <li class="tag">{tec}</li>)}</ul>
           )}
         </div>
       </li>

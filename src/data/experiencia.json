@@ -13,10 +13,52 @@
     "fin": null,
     "logros": {
       "es": [
-        "Ingeniero de aplicaciones en formación en el departamento de metrología de Renishaw, empresa líder en medición de precisión."
+        "Programo rutinas de medición en máquinas de medición por coordenadas (CMM) y en sistemas de medición por comparación.",
+        "Monto y calibro equipos de medición para dejarlos listos y fiables.",
+        "Preparo informes con los resultados de las mediciones y los analizo para sacar conclusiones."
       ],
       "en": [
-        "Trainee applications engineer in the metrology department of Renishaw, a world leader in precision measurement."
+        "I write measurement programs for coordinate measuring machines (CMM) and comparative gauging systems.",
+        "I set up and calibrate measuring equipment so it is ready and reliable.",
+        "I prepare reports with the measurement results and analyse them to draw conclusions."
+      ]
+    },
+    "tecnologias": [
+      "CMM",
+      "Renishaw Agility",
+      "Renishaw Equator",
+      "Calibración",
+      "Informes de medición"
+    ],
+    "tecnologiasEn": [
+      "CMM",
+      "Renishaw Agility",
+      "Renishaw Equator",
+      "Calibration",
+      "Measurement reports"
+    ]
+  },
+  {
+    "empresa": {
+      "es": "Restauración",
+      "en": "Hospitality"
+    },
+    "lugar": {
+      "es": "Barcelona",
+      "en": "Barcelona, Spain"
+    },
+    "puesto": {
+      "es": "Personal de sala",
+      "en": "Front-of-house staff"
+    },
+    "inicio": "2025",
+    "fin": "2025",
+    "logros": {
+      "es": [
+        "Trabajo en restaurantes de mucha afluencia: ritmos exigentes y coordinación con el equipo."
+      ],
+      "en": [
+        "Work in high-volume restaurants: a demanding pace and close coordination with the team."
       ]
     },
     "tecnologias": []
@@ -63,28 +105,6 @@
       ],
       "en": [
         "Maths, physics, chemistry and technology lessons for secondary and high-school students, adapted to each student's level and pace."
-      ]
-    },
-    "tecnologias": []
-  },
-  {
-    "empresa": "",
-    "lugar": {
-      "es": "Barcelona",
-      "en": "Barcelona, Spain"
-    },
-    "puesto": {
-      "es": "Restauración",
-      "en": "Hospitality"
-    },
-    "inicio": "",
-    "fin": "",
-    "logros": {
-      "es": [
-        "Trabajo en restaurantes de mucha afluencia: ritmos exigentes y coordinación con el equipo."
-      ],
-      "en": [
-        "Work in high-volume restaurants: a demanding pace and close coordination with the team."
       ]
     },
     "tecnologias": []
