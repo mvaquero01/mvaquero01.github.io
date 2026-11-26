@@ -1,11 +1,22 @@
 [
   {
     "anio": "2025",
-    "titulo": { "es": "3er premio · Concurso Atracción de Talento", "en": "3rd prize · Talent Attraction Competition" },
-    "entidad": { "es": "Sociedad Nuclear Española", "en": "Spanish Nuclear Society" },
+    "titulo": {
+      "es": "3er premio · Concurso Atracción de Talento",
+      "en": "3rd prize · Talent Attraction Competition"
+    },
+    "entidad": {
+      "es": "Sociedad Nuclear Española",
+      "en": "Spanish Nuclear Society"
+    },
     "detalles": {
-      "es": ["Estrategia de comunicación para la continuidad de la Central Nuclear de Almaraz, con defensa escrita y oral ante el jurado."],
-      "en": ["Communication strategy for the continued operation of the Almaraz Nuclear Power Plant, with a written and oral defence before the jury."]
-    }
+      "es": [
+        "Estrategia de comunicación para la continuidad de la Central Nuclear de Almaraz, con defensa escrita y oral ante el jurado."
+      ],
+      "en": [
+        "Communication strategy for the continued operation of the Almaraz Nuclear Power Plant, with a written and oral defence before the jury."
+      ]
+    },
+    "logo": "/img/logos/sne.png"
   }
 ]

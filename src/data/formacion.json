@@ -18,7 +18,8 @@
       "en": [
         "Currently in 3rd year at the Barcelona School of Industrial Engineering."
       ]
-    }
+    },
+    "logo": "/img/logos/upc.png"
   },
   {
     "centro": "SAFA Sant Andreu",
@@ -41,6 +42,7 @@
         "Graduated with Honours, with an average of 9.64/10.",
         "Dual Diploma at the same time: an international diploma equivalent to the US high-school diploma."
       ]
-    }
+    },
+    "logo": "/img/logos/safa.png"
   }
 ]

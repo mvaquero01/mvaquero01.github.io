@@ -36,7 +36,8 @@
       "Renishaw Equator",
       "Calibration",
       "Measurement reports"
-    ]
+    ],
+    "logo": "/img/logos/renishaw.png"
   },
   {
     "empresa": "Alzamora C.F.",
@@ -60,7 +61,8 @@
         "Team management and coordination with families and the club's coaching staff."
       ]
     },
-    "tecnologias": []
+    "tecnologias": [],
+    "icono": "balon"
   },
   {
     "empresa": "",
@@ -82,7 +84,8 @@
         "Maths, physics, chemistry and technology lessons for secondary and high-school students, adapted to each student's level and pace."
       ]
     },
-    "tecnologias": []
+    "tecnologias": [],
+    "icono": "libro"
   },
   {
     "empresa": {
@@ -107,6 +110,7 @@
         "Customer service in a food truck: fast-paced work in a small space with constant team coordination."
       ]
     },
-    "tecnologias": []
+    "tecnologias": [],
+    "icono": "camion"
   }
 ]
