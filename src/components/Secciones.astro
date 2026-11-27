@@ -47,7 +47,7 @@ const iconos: Record<string, string> = {
   <div class="sobre">
     {perfil.foto && (
       <figure class="sobre__foto" data-reveal="mask">
-        <img src={ruta(perfil.foto)} alt={`${perfil.nombre} ${perfil.apellidos}`} loading="lazy" />
+        <img src={ruta(perfil.foto)} alt={`${perfil.nombre} ${perfil.apellidos}`} width="900" height="900" loading="eager" decoding="async" />
       </figure>
     )}
     <p class="sobre__lead titular" data-reveal>{bi(perfil.sobreMi, lang)[0]}</p>
