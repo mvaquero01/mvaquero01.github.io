@@ -4,7 +4,7 @@ resumen: "I measured a real part with a calliper and turned it into a 3D model, 
 fecha: "2024"
 portada: /img/proyectos/tirador-alarma-metro/portada.jpg
 tecnologias: [SolidWorks, Metrology, 3D printing]
-orden: 1
+orden: 3
 ---
 
 ## The problem

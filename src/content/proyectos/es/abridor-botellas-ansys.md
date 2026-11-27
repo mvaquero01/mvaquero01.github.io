@@ -4,7 +4,7 @@ resumen: "Análisis de tensiones y deformaciones con Ansys de un abridor de meta
 fecha: "2025"
 portada: /img/proyectos/abridor-botellas-ansys/portada.jpg
 tecnologias: [Ansys, FEM, Ensayos]
-orden: 3
+orden: 5
 ---
 
 ## El problema

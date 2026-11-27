@@ -4,7 +4,7 @@ resumen: "Trabajo de investigación de bachillerato: construí y calibré un con
 fecha: "2022"
 portada: /img/proyectos/contador-geiger/portada.jpg
 tecnologias: [Arduino, Electrónica, Calibración]
-orden: 5
+orden: 6
 ---
 
 ## El problema

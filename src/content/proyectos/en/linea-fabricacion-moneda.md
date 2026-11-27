@@ -4,7 +4,7 @@ resumen: "Design and SolidWorks model of an industrial line that makes a coin, d
 fecha: "2024"
 portada: /img/proyectos/linea-fabricacion-moneda/portada.jpg
 tecnologias: [SolidWorks, Manufacturing processes]
-orden: 2
+orden: 4
 ---
 
 ## The problem

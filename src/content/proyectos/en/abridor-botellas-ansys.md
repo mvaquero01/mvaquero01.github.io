@@ -4,7 +4,7 @@ resumen: "Stress and strain analysis in Ansys of an acrylic bottle opener, valid
 fecha: "2025"
 portada: /img/proyectos/abridor-botellas-ansys/portada.jpg
 tecnologias: [Ansys, FEM, Testing]
-orden: 3
+orden: 5
 ---
 
 ## The problem

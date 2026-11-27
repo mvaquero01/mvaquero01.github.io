@@ -4,7 +4,7 @@ resumen: "Medí una pieza real con pie de rey y la convertí en un modelo 3D, pl
 fecha: "2024"
 portada: /img/proyectos/tirador-alarma-metro/portada.jpg
 tecnologias: [SolidWorks, Metrología, Impresión 3D]
-orden: 1
+orden: 3
 ---
 
 ## El problema

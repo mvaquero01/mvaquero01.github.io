@@ -4,7 +4,7 @@ resumen: "High-school research project: I built and calibrated a Geiger counter,
 fecha: "2022"
 portada: /img/proyectos/contador-geiger/portada.jpg
 tecnologias: [Arduino, Electronics, Calibration]
-orden: 5
+orden: 6
 ---
 
 ## The problem

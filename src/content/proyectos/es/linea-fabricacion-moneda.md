@@ -4,7 +4,7 @@ resumen: "Diseño y modelado en SolidWorks de una línea industrial para fabrica
 fecha: "2024"
 portada: /img/proyectos/linea-fabricacion-moneda/portada.jpg
 tecnologias: [SolidWorks, Procesos de fabricación]
-orden: 2
+orden: 4
 ---
 
 ## El problema
