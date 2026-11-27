@@ -2,7 +2,7 @@
 titulo: "Booking website for a barbershop"
 resumen: "Website and management panel for a friend's barbershop: customers book online and he runs his calendar, customers, takings and stats from his phone. Live with real customers."
 fecha: "2026"
-portada: /img/proyectos/web-reservas-barberia/portada.jpg
+portada: /img/proyectos/barberia-marc-ros/portada.jpg
 tecnologias: [React, Vite, Firebase, Vercel, n8n]
 rol: "Full development"
 enlaces:

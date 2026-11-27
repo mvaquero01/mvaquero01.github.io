@@ -2,7 +2,7 @@
 titulo: "Zitalia: AI appointment assistant on WhatsApp"
 resumen: "WhatsApp bot for dental and aesthetic clinics that confirms, cancels, reschedules and books appointments in natural language, connected to the clinic's calendar. A start-up project with a partner."
 fecha: "2026 · in progress"
-portada: /img/proyectos/zitalia/portada.jpg
+portada: /img/proyectos/zitalia-asistente/portada.jpg
 tecnologias: [n8n, Claude API, WhatsApp Cloud API, Google Calendar, Docker, Hetzner]
 rol: "Co-founder and development"
 enlaces:

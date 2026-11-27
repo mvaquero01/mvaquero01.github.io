@@ -2,7 +2,7 @@
 titulo: "Web de reservas para una barbería"
 resumen: "Web y panel de gestión para la barbería de un amigo: los clientes reservan cita online y él lleva agenda, clientes, caja y estadísticas desde el móvil. Funcionando con clientes reales."
 fecha: "2026"
-portada: /img/proyectos/web-reservas-barberia/portada.jpg
+portada: /img/proyectos/barberia-marc-ros/portada.jpg
 tecnologias: [React, Vite, Firebase, Vercel, n8n]
 rol: "Desarrollo completo"
 enlaces:
