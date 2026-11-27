@@ -5,6 +5,8 @@ fecha: "2026 · in progress"
 portada: /img/proyectos/zitalia/portada.jpg
 tecnologias: [n8n, Claude API, WhatsApp Cloud API, Google Calendar, Docker, Hetzner]
 rol: "Co-founder and development"
+enlaces:
+  web: "https://zitalia.es"
 destacado: true
 orden: 1
 ---

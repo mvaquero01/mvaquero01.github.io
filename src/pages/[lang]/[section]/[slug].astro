@@ -46,6 +46,7 @@ const ficha = [
   d.duracion && { k: t(lang, 'detalle.duracion'), v: d.duracion },
 ].filter(Boolean) as { k: string; v: string }[];
 const enlaces = [
+  d.enlaces?.web && { texto: new URL(d.enlaces.web).hostname.replace(/^www\./, ''), href: d.enlaces.web },
   d.enlaces?.github && { texto: 'GitHub', href: d.enlaces.github },
   d.enlaces?.demo && { texto: 'Demo', href: d.enlaces.demo },
   d.enlaces?.documento && { texto: lang === 'es' ? 'Documento' : 'Report', href: ruta(d.enlaces.documento) },

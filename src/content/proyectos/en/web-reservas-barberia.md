@@ -6,7 +6,7 @@ portada: /img/proyectos/web-reservas-barberia/portada.jpg
 tecnologias: [React, Vite, Firebase, Vercel, n8n]
 rol: "Full development"
 enlaces:
-  demo: "https://marc-ros.vercel.app"
+  web: "https://marc-ros.vercel.app"
 orden: 2
 ---
 

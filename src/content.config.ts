@@ -16,7 +16,7 @@ const proyectos = defineCollection({
     duracion: z.string().optional(),
     video: z.string().optional(),
     enlaces: z
-      .object({ github: z.string().optional(), demo: z.string().optional(), documento: z.string().optional() })
+      .object({ web: z.string().optional(), github: z.string().optional(), demo: z.string().optional(), documento: z.string().optional() })
       .optional(),
     resultados: z.array(z.object({ valor: z.string(), etiqueta: z.string() })).default([]),
     galeria: z.array(z.object({ src: z.string(), alt: z.string() })).default([]),
